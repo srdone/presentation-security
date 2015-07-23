@@ -164,3 +164,54 @@ Which is logically the same as:
 - Stored procedures can prevent
 
 #OWASP - Open Web Application Security Project
+
+
+#Cross-site request forgery (below from Wikipedia)
+- exploits the trust the site has in the user's browser
+- unauthorized commands transmitted from a user that the website trusts
+- forged login requests (login CSRF)
+- Cross-site Scripting allows attackers to bypass most CSRF preventions
+
+##Example
+Mallory crafts an HTML image element that references an action on Alice's bank's website and posts it on a chat forum
+If the account access is stored in a cookie that has not expired, loading the image will call the action on alice's account
+Happens with web apps that perform actions based on input from trusted and authenticated users without requiring the user to authorize the action
+
+##Requirements for CSRF to be successful
+- Target must be a site that doesn't check the referrer header or a browser that allows referer spoofing
+- Attacker must find a form submission or url with side effects that does something (transfers money, changes email address)
+- Attacker must determine all the right values for the forms or URL inputs, including ones that might be secret authentication values
+- Attacker must lure the victim to a web page with malicious code while the victim is logged into the targe site
+- Note that the attack is blind, but are easy to mount and are invisible to the victim.
+
+##Prevention
+
+###Synchronizer token pattern
+A token, secret, and unique value for each request embedded by the application in all HTML forms and verified on the server
+Difficult to implement in applications that make heavy use of AJAX, but is very compatible
+
+###Cookie-to-Header Token
+On login, application sets a cookie with a random token that remains the same for the session, the JavaScript reads the value
+and copies it into a custom HTTP header sent with each request, and the server validates the presence and integrity of the token
+Implemented by Django and AngularJS. Remains constant over the whole session, works well with AJAX applications, does not enforce
+sequence of events in the application
+
+###Client side safeguards
+Some extensions exist, but can cause incompatibilities
+
+###Other techniques
+- Verifying that request headers contain correct Referer or Origin headers, but with the correct combination of extensions these can be spoofed.
+
+
+#Cross-site scripting (below from Wikipedia)
+- Allows attackers to inject client-side script into web pages viewed by other users.
+- Can be used to bypass access controls such as the same-origin policy
+- Most commonly reported security vulnerability
+
+###Types
+- Reflected (non-persistent)
+Taking query parameters or form submissions and displaying the results in HTML without properly escaping characters
+React automatically protects agains this attack
+- Persistent
+Data provided by the attacker is saved by the server, and then displayed in the browser without proper HTML escaping
+...
