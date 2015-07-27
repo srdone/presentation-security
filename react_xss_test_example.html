@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+	<head>
+		<title>React XSS</title>
+	</head>
+	<body>
+		<div id="content"></div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/JSXTransformer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script type="text/jsx">
+			var hello = '<script>' + 'alert(' + 'hello' +')' + '</' + 'script>';
+			var Example = React.createClass({
+				render: function () {
+					return (
+						<div dangerouslySetInnerHTML={{__html: hello}} />
+					);
+				}
+			});
+			
+			React.render(<Example />, document.getElementById('content'));
+		</script>
+	</body>
+</html>
