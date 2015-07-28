@@ -197,7 +197,7 @@ Implemented by Django and AngularJS. Remains constant over the whole session, wo
 sequence of events in the application
 
 ###Client side safeguards
-Some extensions exist, but can cause incompatibilities
+Some browser extensions exist, but can cause incompatibilities
 
 ###Other techniques
 - Verifying that request headers contain correct Referer or Origin headers, but with the correct combination of extensions these can be spoofed.
